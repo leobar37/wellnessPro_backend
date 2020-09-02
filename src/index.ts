@@ -1,9 +1,7 @@
-import Server from './classes/server';
- 
-const server = Server.instance;
-import { create } from './bd'
+import Server from "./classes/server";
 
-server.start(async ()=>{
-    await create()
- console.log('listen on port: ' + server.port);
+const server = Server.instance;
+
+server.start(async () => {
+  console.log("listen on port: " + server.port);
 });
