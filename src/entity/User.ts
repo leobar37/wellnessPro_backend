@@ -10,6 +10,9 @@ export class User {
   name!: string;
   @Column({ length: 60, name: "last_name" })
   lastName!: string;
+  @Column("simple-json")
+  direccion!: string;
+
   @Column({ length: 10 })
   phone!: string;
   @Column({ length: 12, nullable: true })

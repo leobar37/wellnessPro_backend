@@ -16,6 +16,8 @@ export class Product {
   stock!: number;
   @Column("float4", { name: "price_unit" })
   priceUnit!: number;
+  @Column({ length: 50 })
+  filename!: string;
 
   @Column("float4", { name: "price_payment" })
   pricePayment!: number;
