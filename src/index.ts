@@ -1,5 +1,5 @@
+import "reflect-metadata";
 import Server from "./classes/server";
-
 const server = Server.instance;
 
 server.start(async () => {
