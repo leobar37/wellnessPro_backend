@@ -1,18 +1,17 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Inscription } from "./Inscription";
-@Entity()
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   user!: string;
   @Column({ length: 60 })
   name!: string;
   @Column({ length: 60, name: "last_name" })
   lastName!: string;
-  @Column("simple-json")
+  @Column("simple-json", { nullable: true })
   direccion!: string;
-
   @Column({ length: 10 })
   phone!: string;
   @Column({ length: 12, nullable: true })

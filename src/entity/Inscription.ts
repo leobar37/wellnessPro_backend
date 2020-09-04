@@ -20,6 +20,8 @@ export class Inscription {
   expiration!: Date;
   @Column("float4")
   amount!: number;
+  @Column()
+  valid!: boolean;
   @ManyToOne((type) => User, (user) => user.Inscriptions)
   @JoinColumn({ name: "id_user" })
   user!: User;
