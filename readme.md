@@ -8,11 +8,11 @@
 
 [x] build entitities
 
-[ ] endpoints user
+[x] endpoints user
 
-[ ] endpoint product
+[] endpoint product
 
-[ ] configurar express y archivos estaicos
+[ ] configurar express y archivos estaticos
 
 ## Endpoints
 
