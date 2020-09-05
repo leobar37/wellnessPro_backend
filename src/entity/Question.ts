@@ -14,9 +14,11 @@ import { Form } from "./Form";
 export class Question {
   @PrimaryGeneratedColumn("increment")
   id!: number;
-  @Column("json")
+  @Column("json", { nullable: true })
   options!: string;
   @Column()
+  question!: string;
+  @Column({ default: true })
   required!: boolean;
   @OneToMany((type) => Pool, (pool) => pool.question)
   pools!: Array<Pool>;

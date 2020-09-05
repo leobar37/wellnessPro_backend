@@ -13,7 +13,7 @@ import { Question } from "./Question";
 export class Pool {
   @PrimaryGeneratedColumn()
   id!: number;
-  @Column("simple-json")
+  @Column("json", { nullable: true })
   response!: string;
   @ManyToOne((type) => Inscription, (ins) => ins.pools, { nullable: false })
   inscription!: Inscription;

@@ -8,11 +8,13 @@
 
 [x] build entitities
 
-[ ] endpoints user
+[x] endpoints user
 
-[ ] endpoint product
+[x] endpoint product
 
-[ ] configurar express y archivos estaicos
+[x] configurar express y archivos estaicos
+
+[x] endpoints productos
 
 ## Endpoints
 
@@ -58,3 +60,14 @@ que se verifiquen los pagos y que se guarden los metadatos
 - paypal configuration
 - crear un producto
 - traer productos
+
+### questions
+
+las preguntas pertenecena a un formulario , este campo es obligatorio
+
+### criterios de búsqueda
+
+- ○ asc o desc (fecha de creacion)
+- por formulario
+- por nombre de pregunta
+- por cantidad

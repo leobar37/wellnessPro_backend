@@ -4,9 +4,11 @@ import { Question } from "./Question";
 export class Form {
   @PrimaryGeneratedColumn()
   id!: number;
-  @Column("date")
+  @Column({ length: 200, nullable: true })
+  name!: string;
+  @Column("date", { default: () => "CURRENT_DATE" })
   created!: Date;
-  @Column("text")
+  @Column("json")
   description!: string;
   @Column()
   public!: boolean;

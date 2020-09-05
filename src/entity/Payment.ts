@@ -12,7 +12,7 @@ import { DetailPayment } from "./DetailPayment";
 export class Payment {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
-  @Column()
+  @Column("float4")
   amount!: number;
   @Column({ default: () => "CURRENT_DATE" })
   created!: Date;
