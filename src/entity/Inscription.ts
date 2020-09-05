@@ -14,12 +14,14 @@ import { Pool } from "./Poll";
 export class Inscription {
   @PrimaryGeneratedColumn()
   id!: number;
-  @Column("timestamp", { default: () => "CURRENT_TIMESTAMP" })
+  @Column("timestamp", { default: () => "CURRENT_TIMESTAMP", nullable: true })
   create!: Date;
-  @Column()
+  @Column({ nullable: true })
   expiration!: Date;
   @Column("float4")
   amount!: number;
+  @Column("json", { nullable: true })
+  description!: string;
   @Column()
   valid!: boolean;
   @ManyToOne((type) => User, (user) => user.Inscriptions)

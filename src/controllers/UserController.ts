@@ -1,6 +1,7 @@
-import { EntityRepository, AbstractRepository } from "typeorm";
+import { EntityRepository, AbstractRepository, Like } from "typeorm";
 import { User } from "../entity/User";
 import { IError, Iuser } from "../models/interfaces";
+import { Tparams } from "../models/types";
 
 @EntityRepository(User)
 export class UserRepository extends AbstractRepository<User> {
@@ -26,8 +27,6 @@ export class UserRepository extends AbstractRepository<User> {
         .set(userUpdate)
         .where("users.id = :id", { id })
         .execute();
-
-      console.log(res);
     } catch (error) {
       return { message: "bd error", metadata: error.message } as IError;
     }
@@ -45,18 +44,17 @@ export class UserRepository extends AbstractRepository<User> {
       : ({ message: "no exists user", metadata: "" } as IError);
   }
 
-  async getUsers(data: paramsGet): Promise<User | User[]> {
+  async getUsers(data: Tparams): Promise<User[] | IError> {
     if (data.id) {
-      const user = await this.repository.findOne({ id: data.id });
-      return user || [];
+      const user = await this.repository.find({ id: data.id });
+      return user;
     } else {
-      return this.repository.find({});
+      try {
+        if (data.name) data.name = Like(`${data.name}%`);
+        return this.repository.find(data);
+      } catch (error) {
+        return { message: "error bd", metadata: error.message } as IError;
+      }
     }
   }
 }
-
-type paramsGet = {
-  id?: string;
-  limit?: number;
-  skip?: number;
-};

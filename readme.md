@@ -10,9 +10,26 @@
 
 [x] endpoints user
 
+<<<<<<< HEAD
 [] endpoint product
 
 [ ] configurar express y archivos estaticos
+=======
+[x] endpoint product
+
+[x] configurar express y archivos estaicos
+
+[x] endpoints productos
+
+# pendientes
+
+[ ] acomodar pool que su llave primaria no se repita
+[ ] emplear los middlewares para el frontend
+[ ] emplear jwt
+[ ] encriptar la contraseña de los usuarios
+[ ] manejador de archivos
+[ ] rutas para paypal
+>>>>>>> cuestionroutes
 
 ## Endpoints
 
@@ -58,3 +75,14 @@ que se verifiquen los pagos y que se guarden los metadatos
 - paypal configuration
 - crear un producto
 - traer productos
+
+### questions
+
+las preguntas pertenecena a un formulario , este campo es obligatorio
+
+### criterios de búsqueda
+
+- ○ asc o desc (fecha de creacion)
+- por formulario
+- por nombre de pregunta
+- por cantidad
