@@ -2,16 +2,29 @@ import { EntityRepository, AbstractRepository, Like } from "typeorm";
 import { User } from "../entity/User";
 import { IError, Iuser } from "../models/interfaces";
 import { Tparams } from "../models/types";
-
+import { BycriptHelper } from "../helpers/Bycript.helper";
+import { JWT } from "../helpers/jwt";
+import { verifyPropertys } from "../helpers/helpers";
+import { ManageCodes } from "../helpers/ManageCodes";
 @EntityRepository(User)
 export class UserRepository extends AbstractRepository<User> {
-  async createUser(use: Iuser) {
-    const user = this.repository.create(use);
+  async createUser(use: Iuser): Promise<string | IError> {
+    if (use.pasword) {
+      const resPas = await BycriptHelper.hashPassword(use.pasword);
+      if (typeof resPas === "string") {
+        use.pasword == resPas;
+        use.isUser = true;
+      }
+    }
     try {
-      return await this.repository.save(user);
+      const user = this.repository.create(use);
+      const userSave = await this.repository.save(user);
+      let us = Object.assign({} as Iuser, userSave);
+      us = verifyPropertys(us);
+      return JWT.getToken(us);
     } catch (error) {
-      console.log(error.message);
-      return null;
+      const rawError = ManageCodes.searchError(error.code);
+      return { code: rawError.code, message: rawError.message } as IError;
     }
   }
   async updateUser(id: string, user: Iuser): Promise<User | IError> {

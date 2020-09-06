@@ -4,19 +4,21 @@ import { Inscription } from "./Inscription";
 export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
-  @Column({ length: 50, nullable: true })
+  @Column({ length: 50, nullable: true, unique: true })
   user!: string;
   @Column({ length: 60 })
   name!: string;
   @Column({ length: 60, name: "last_name" })
   lastName!: string;
-  @Column("simple-json", { nullable: true })
+  @Column("json", { nullable: true })
   direccion!: string;
   @Column({ length: 10 })
   phone!: string;
   @Column({ length: 12, nullable: true })
   dni!: string;
-  @Column({ length: 250, nullable: false })
+  @Column({ default: false })
+  isUser!: boolean;
+  @Column({ length: 250, nullable: false, unique: true })
   email!: string;
   @Column({ length: 250, nullable: true })
   password!: string;

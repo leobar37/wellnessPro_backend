@@ -10,9 +10,10 @@ export class JWT {
       return { message: "not valid token" } as IError;
     }
   }
-  static getToken<T>(payload: any): string | IError {
+  static getToken(payload: any): string | IError {
     try {
       const token = jwt.sign(payload, SECRET, { expiresIn: EXPIRESTOKEN });
+
       return token;
     } catch (error) {
       return { message: "error with token" } as IError;

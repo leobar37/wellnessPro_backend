@@ -1,5 +1,6 @@
 import { Request, Response, Router, request } from "express";
 import multer from "../middlewares/multer";
+import { FileHelper } from "../helpers/Files.helper";
 const router = Router();
 
 router.post(
@@ -17,5 +18,11 @@ router.post(
 
 router.get("/file/:image", (req: Request, res: Response) => {
   const { image } = req.params;
+  const resp = FileHelper.existFile(image);
+  if (typeof resp == "string") {
+    res.sendFile(resp);
+  } else {
+    res.status(404).json({ ok: false, err: "not file" });
+  }
 });
 export default router;

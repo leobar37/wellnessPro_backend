@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, json } from "express";
 import jwt from "jsonwebtoken";
 import { SECRET } from "../globals/enviroment";
-export const isAdmin = async (
+export const isTokenValid = async (
   req: Request,
   res: Response,
   next: NextFunction
