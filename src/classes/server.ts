@@ -7,6 +7,7 @@ import http from "http";
 import path, { dirname } from "path";
 import socketIo from "socket.io";
 import * as socket from "../sockets/socket";
+import * as middlewaresErrors from "../middlewares/handeError";
 export default class Server {
   private static _instance: Server;
   public app: express.Application;
@@ -17,6 +18,7 @@ export default class Server {
     this.app = express();
     this.port = PORT_SERVER;
     this.confiExpres();
+    this.app.use(middlewaresErrors.errorHandler);
     this.serveHttp = new http.Server(this.app);
     this.io = socketIo(this.serveHttp);
     this.escucharSockets();
