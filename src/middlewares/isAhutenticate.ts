@@ -10,7 +10,7 @@ export const isTokenValid = async (
   if (token) {
     try {
       const decode: any = jwt.verify(token, SECRET);
-      if (decode.idAdmin == true) {
+      if (decode) {
         next();
       } else {
         res.status(400).json({ ok: false, message: "not is admin" });

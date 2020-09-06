@@ -15,7 +15,7 @@ export interface Iuser {
   dni?: string;
   email: string;
   isUser?: boolean;
-  pasword?: string;
+  password?: string;
   inscriptions?: [];
 }
 

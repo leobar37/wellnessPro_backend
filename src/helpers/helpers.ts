@@ -14,7 +14,5 @@ export const verifyPropertys = (obj: any) => {
       delete obj[iterator[0]];
     }
   }
-  console.log(obj);
-
   return obj;
 };

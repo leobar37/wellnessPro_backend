@@ -6,3 +6,4 @@
 [x] encriptar la contraseña de los usuarios
 [x] manejador de archivos
 [ ] rutas para paypal
+[ ] verificar email (node mailer)
