@@ -10,9 +10,9 @@
 
 [x] endpoints user
 
-[] endpoint product
+[x] endpoint product
 
-[ ] configurar express y archivos estaticos
+[x] configurar express y archivos estaticos
 
 ## Endpoints
 

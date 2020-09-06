@@ -2,7 +2,6 @@ import { Request, Response, Router } from "express";
 const router = Router();
 import { getCustomRepository } from "typeorm";
 import { InscriptionController } from "../controllers/InscriptionsController";
-import { Tparams } from "../models/types";
 import { Inscription } from "../entity/Inscription";
 import { IInscription } from "../models/interfaces";
 import { isTokenValid } from "../middlewares/isAhutenticate";

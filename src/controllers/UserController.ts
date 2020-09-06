@@ -6,13 +6,14 @@ import { BycriptHelper } from "../helpers/Bycript.helper";
 import { JWT } from "../helpers/jwt";
 import { verifyPropertys } from "../helpers/helpers";
 import { ManageCodes } from "../helpers/ManageCodes";
+import { find } from "underscore";
 @EntityRepository(User)
 export class UserRepository extends AbstractRepository<User> {
   async createUser(use: Iuser): Promise<string | IError> {
-    if (use.pasword) {
-      const resPas = await BycriptHelper.hashPassword(use.pasword);
+    if (typeof use?.password == "string") {
+      const resPas = await BycriptHelper.hashPassword(use.password);
       if (typeof resPas === "string") {
-        use.pasword == resPas;
+        use.password = resPas;
         use.isUser = true;
       }
     }
