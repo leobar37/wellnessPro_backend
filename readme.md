@@ -24,10 +24,11 @@
 
 [x] manejador de archivos
 
-[ ] rutas para paypal
+[x] rutas para paypal
 
 [ ] verificar email (node mailer)
 
+[x] installl nodemailer
 [ ]
 
 ## Endpoints
@@ -85,3 +86,17 @@ las preguntas pertenecena a un formulario , este campo es obligatorio
 - por formulario
 - por nombre de pregunta
 - por cantidad
+
+### pagos
+
+los pagos se deben solo verificar en el servidor
+del frontend solo se enviara el
+
+- como cabeceras se tendra que enviar el token enviado previamente
+- Id del producto con esto se buscara
+- Se enviara la moneda para poder enviarsela a paypal
+- y se retornara el token
+
+## confirmacion de correo
+
+con nodemailer poder enviar un correo dispuesto para validarlo para asi confirmar la direccion de correo electronico

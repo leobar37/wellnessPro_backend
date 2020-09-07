@@ -7,3 +7,4 @@
 [x] manejador de archivos
 [ ] rutas para paypal
 [ ] verificar email (node mailer)
+[ ]
