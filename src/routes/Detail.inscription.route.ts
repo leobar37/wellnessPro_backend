@@ -1,19 +1,18 @@
 import { Request, Response, Router } from "express";
 const router = Router();
 import { getCustomRepository } from "typeorm";
-import { InscriptionController } from "../controllers/InscriptionsController";
-import { Inscription } from "../entity/Inscription";
-import { IInscription } from "../models/interfaces";
+import { DetailInscriptionController } from "../controllers/DetailInscription";
+import { DetailInscription } from "../entity/DetailInscription";
+import { IDetailInscription } from "../models/interfaces";
 import { isTokenValid } from "../middlewares/isAhutenticate";
+import { ManageCodes } from "../helpers/ManageCodes";
 
-router.post("/inscription", async (req: Request, res: Response) => {
-  console.log("here");
-
-  const pro: IInscription = req.body;
+router.post("/detailnscription", async (req: Request, res: Response) => {
+  const pro: IDetailInscription = req.body;
   const resp = await getCustomRepository(
-    InscriptionController
-  ).createInscription(pro);
-  if (resp instanceof Inscription) {
+    DetailInscriptionController
+  ).createDetailInscription(pro);
+  if (resp instanceof DetailInscription) {
     return res.status(200).json({ ok: true, resp: resp });
   } else {
     return res.status(400).json(resp);
@@ -21,16 +20,16 @@ router.post("/inscription", async (req: Request, res: Response) => {
 });
 
 router.put(
-  "/inscription/:id",
+  "/detailInscription/:id",
   [isTokenValid],
   async (req: Request, res: Response) => {
     const { id } = req.params;
     const idNum = Number(id);
-    const pro: IInscription = req.body;
+    const pro: IDetailInscription = req.body;
     const resp = await getCustomRepository(
-      InscriptionController
-    ).updateInscription(pro, idNum);
-    if (resp instanceof Inscription) {
+      DetailInscriptionController
+    ).updateDetailInscription(pro, idNum);
+    if (resp instanceof DetailInscription) {
       return res.status(200).json({ ok: true, resp });
     } else {
       return res.status(500).json(resp);
@@ -42,31 +41,42 @@ router.put(
  * @param tipo de inscripcion : ?  = determina que tipo de inscripcion desea
  * @param idUser =  obligatorio para crear la inscripcion
  */
-router.post("/");
+router.post("/insconsult", async (req, res) => {
+  const { idUser } = req.body;
+  if (!idUser) return res.status(400).json(ManageCodes.searchErrors(35));
+  const resp = await getCustomRepository(
+    DetailInscriptionController
+  ).consultInscription({ idUser });
+  res.status(200).json({ ok: true, resp: resp });
+});
 router.delete(
-  "/inscription/:id",
+  "/detailInscription/:id",
   [isTokenValid],
   async (req: Request, res: Response) => {
     const { id } = req.params;
     const idNum = Number(id);
     const resp = await getCustomRepository(
-      InscriptionController
-    ).deleteInscription(idNum);
-    if (resp instanceof Inscription) {
+      DetailInscriptionController
+    ).deleteDetailInscription(idNum);
+    if (resp instanceof DetailInscription) {
       return res.status(200).json({ ok: true, resp });
     } else {
       return res.status(500).json(resp);
     }
   }
 );
+/**
+ * @param user :  strins to seach an inscription
+
+ */
 router.get(
-  "/inscription",
+  "/detailInscription",
   [isTokenValid],
   async (req: Request, res: Response) => {
-    const { ...params } = req.query;
+    const { user, ...params } = req.query;
     const resp = await getCustomRepository(
-      InscriptionController
-    ).searchInscrition(params);
+      DetailInscriptionController
+    ).searchDetailInscription(params, { user });
     if (resp instanceof Array) {
       return res.status(200).json({ ok: true, resp });
     } else {

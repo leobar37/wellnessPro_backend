@@ -7,7 +7,4 @@ createConnection().then((data) => {
   server.start(async () => {
     console.log("listen on port: " + server.port);
   });
-  // getCustomRepository(InscriptionController).haveInscriptions(
-  //   "acae05fc-1814-45b8-91b6-0b28230fd72e"
-  // );
 });

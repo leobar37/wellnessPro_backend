@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Inscription } from "./Inscription";
+import { DetailInscription } from "./DetailInscription";
+
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -25,6 +26,6 @@ export class User {
   email!: string;
   @Column({ length: 250, nullable: true })
   password!: string;
-  @OneToMany((type) => Inscription, (ins) => ins.user)
-  Inscriptions!: Inscription[];
+  @OneToMany((type) => DetailInscription, (ins) => ins.user)
+  detailInscriptions!: DetailInscription[];
 }

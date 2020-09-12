@@ -1,13 +1,14 @@
 import express from "express";
 import { PORT_SERVER } from "../globals/enviroment";
 import morgan from "morgan";
-import { router } from "../routes/index";
+import routes from "../routes/index";
 import cors from "cors";
 import http from "http";
 import path, { dirname } from "path";
 import socketIo from "socket.io";
 import * as socket from "../sockets/socket";
 import * as middlewaresErrors from "../middlewares/handeError";
+import router from "../routes/User";
 export default class Server {
   private static _instance: Server;
   public app: express.Application;
@@ -34,7 +35,7 @@ export default class Server {
     this.app.use(cors({ origin: true, credentials: true }));
     const routePublic = path.join(__dirname, "../../public");
     this.app.use(express.static(routePublic));
-    this.app.use(router);
+    this.app.use(routes);
   }
   private escucharSockets() {
     this.io.on("connection", (cliente) => {

@@ -6,6 +6,7 @@ import {
   Unique,
   JoinColumn,
 } from "typeorm";
+import { DetailInscription } from "./DetailInscription";
 import { Inscription } from "./Inscription";
 import { Question } from "./Question";
 
@@ -16,7 +17,9 @@ export class Pool {
   id!: number;
   @Column("json", { nullable: true })
   response!: string;
-  @ManyToOne((type) => Inscription, (ins) => ins.pools, { nullable: false })
+  @ManyToOne((type) => DetailInscription, (ins) => ins.pools, {
+    nullable: false,
+  })
   @JoinColumn({ name: "inscription_id" })
   inscription!: Inscription;
   @ManyToOne((type) => Question, (ques) => ques.pools, { nullable: false })

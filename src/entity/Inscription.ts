@@ -1,16 +1,6 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-  JoinTable,
-  OneToMany,
-} from "typeorm";
-import { User } from "./User";
-import { Payment } from "./Payment";
-import { Pool } from "./Poll";
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { DetailInscription } from "./DetailInscription";
+import { Requirement } from "./Requiremtent";
 @Entity()
 export class Inscription {
   @PrimaryGeneratedColumn()
@@ -21,17 +11,12 @@ export class Inscription {
   expiration!: Date;
   @Column("float4", { nullable: true })
   amount!: number;
-  @Column({ nullable: true })
-  idProduct!: number;
   @Column("json", { nullable: true })
   description!: string;
   @Column({ nullable: true, default: true })
   valid!: boolean;
-  @ManyToOne((type) => User, (user) => user.Inscriptions)
-  @JoinColumn({ name: "id_user" })
-  user!: User;
-  @OneToMany((type) => Payment, (pay) => pay.inscription)
-  payments!: Array<Payment>;
-  @OneToMany((type) => Pool, (ins) => ins.inscription)
-  pools!: Array<Pool>;
+  @OneToMany((type) => DetailInscription, (detail) => detail.inscription)
+  detailsInscriptions!: Array<DetailInscription>;
+  @OneToMany((type) => Requirement, (re) => re.inscription)
+  requeriments!: Requirement[];
 }

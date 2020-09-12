@@ -4,10 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from "typeorm";
 import { Inscription } from "./Inscription";
 import { DetailPayment } from "./DetailPayment";
-
+import { User } from "./User";
 @Entity()
 export class Payment {
   @PrimaryGeneratedColumn("uuid")
@@ -20,9 +21,9 @@ export class Payment {
   metadata!: string;
   @Column({ nullable: true })
   description!: string;
-  @ManyToOne((type) => Inscription, (ins) => ins.payments)
-  inscription!: Inscription;
-
   @OneToMany((type) => DetailPayment, (detail) => detail.payment)
   detaillsPayment!: Array<DetailPayment>;
+  @ManyToOne((type) => User, (us) => us.id)
+  @JoinColumn({ name: "user_id" })
+  user!: User;
 }

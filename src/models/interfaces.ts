@@ -1,3 +1,7 @@
+import { Inscription } from "../entity/Inscription";
+import { Pool } from "../entity/Poll";
+import { User } from "../entity/User";
+
 export interface IError {
   ok?: false;
   code?: number;
@@ -34,12 +38,11 @@ export interface IInscription {
   create?: Date;
   expiration?: Date;
   amount?: number;
+  requeriments?: [];
   description?: string;
+  detailsInscriptions?: [];
   valid?: boolean;
-  user: Iuser;
-  paymentS: [];
   pools: [];
-  idUser?: string;
 }
 
 export interface IPayment {
@@ -76,4 +79,16 @@ export interface IQuestion {
   pools?: [];
   form?: IForm;
   idForm?: number;
+}
+
+export interface IDetailInscription {
+  id?: number;
+  idPago?: string;
+  status?: boolean;
+  metadata?: string;
+  user?: User;
+  pools?: [];
+  idUser?: string;
+  inscription: Inscription;
+  requirements?: [];
 }
