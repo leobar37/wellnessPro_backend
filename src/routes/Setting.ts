@@ -7,7 +7,7 @@ app.get("/setting", async (req, res) => {
   const { key } = req.query;
   if (typeof key != "undefined") {
     const resp = await getCustomRepository(SettingController).searchSetting(
-      key
+      String(key)
     );
     return res.status(200).json(resp);
   } else {

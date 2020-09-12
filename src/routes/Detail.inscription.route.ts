@@ -76,7 +76,7 @@ router.get(
     const { user, ...params } = req.query;
     const resp = await getCustomRepository(
       DetailInscriptionController
-    ).searchDetailInscription(params, { user });
+    ).searchDetailInscription(params, { user: String(user) });
     if (resp instanceof Array) {
       return res.status(200).json({ ok: true, resp });
     } else {

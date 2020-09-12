@@ -47,6 +47,9 @@ export class DetailInscriptionController extends AbstractRepository<
     opt.typeinscription = opt.typeinscription || "DESAFIO";
 
     try {
+      if (await this.haveDetailInscriptions(opt.idUser)) {
+        return ManageCodes.searchErrors(30);
+      }
       const idInscription = await this.manager
         .createQueryBuilder()
         .from(Setting, "setting")
@@ -60,7 +63,7 @@ export class DetailInscriptionController extends AbstractRepository<
       const detailInscription = await this.createDetailInscription({
         idUser: opt.idUser,
         inscription: ins,
-        status: false,
+        status: true,
       });
       if (detailInscription instanceof DetailInscription) {
         delete detailInscription.user;
@@ -86,7 +89,7 @@ export class DetailInscriptionController extends AbstractRepository<
           (qb) => {
             return "user.id = :id and ins.status = :valid";
           },
-          { id: idUser, valid: true }
+          { id: idUser, valid: false }
         )
         .getCount();
       return query > 0 ? true : false;
@@ -128,7 +131,7 @@ export class DetailInscriptionController extends AbstractRepository<
   //list DetailInscription && get DetailInscription
   async searchDetailInscription(
     params: Tparams,
-    opt: { user: string }
+    opt: { user?: string }
   ): Promise<DetailInscription[] | IError> {
     if (params.id) return this.repository.find({ id: params.id });
     try {
