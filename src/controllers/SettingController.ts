@@ -17,7 +17,7 @@ export class SettingController extends AbstractRepository<Setting> {
       await this.repository.save(s);
       return true;
     } else {
-      console.log("here  error", sett?.id);
+
       return Promise.reject({
         message: "esta configuracion ya existe",
       } as IError);
