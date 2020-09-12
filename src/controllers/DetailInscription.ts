@@ -63,7 +63,7 @@ export class DetailInscriptionController extends AbstractRepository<
         status: false,
       });
       if (detailInscription instanceof DetailInscription) {
-        delete detailInscription?.user;
+        delete detailInscription.user;
         return detailInscription;
       }
     } catch (error) {
