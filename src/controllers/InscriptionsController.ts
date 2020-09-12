@@ -7,6 +7,7 @@ import {
 import { Inscription } from "../entity/Inscription";
 import { IInscription, IError } from "../models/interfaces";
 import { Tparams } from "../models/types";
+import { ManageCodes } from "../helpers/ManageCodes";
 import { User } from "../entity/User";
 @EntityRepository(Inscription)
 export class InscriptionController extends AbstractRepository<Inscription> {
@@ -16,15 +17,42 @@ export class InscriptionController extends AbstractRepository<Inscription> {
     try {
       if (typeof inscription.idUser == "undefined")
         return { message: "user not found" } as IError;
+      // buscar el usuario y buscar si este no tiene una suscripcion
       const use = await getManager().findOne(User, inscription.idUser);
-      if (!use) return { message: "user not found" } as IError;
-      const ins = this.repository.create(inscription);
-      console.log(use);
+      // usuario listo ahora busca si no tiene una inscricion en curso
+      // el usuario no puede estar una inscrip
+      if (!use) return ManageCodes.searchErrors(31);
 
-      ins.user = use;
-      return await this.repository.save(ins);
+      const existInscription = await this.haveInscriptions(use?.id);
+      if (existInscription) return ManageCodes.searchErrors(30);
+      let inscr = this.repository.create(inscription);
+      inscr.user = use;
+      return await this.repository.save(inscr);
     } catch (error) {
       return { message: "error bd", metadata: error.message } as IError;
+    }
+  }
+  async haveInscriptions(idUser: string): Promise<boolean> {
+    /* hasta aqui se ha hecho un select a users
+      y se le ha renombrado con user
+    */
+    try {
+      const query = await this.manager
+        .createQueryBuilder()
+        .from(User, "user")
+        .select("user.id")
+        .addSelect("ins.id")
+        .innerJoin("user.Inscriptions", "ins")
+        .where(
+          (qb) => {
+            return "user.id = :id and ins.valid = :valid";
+          },
+          { id: idUser, valid: true }
+        )
+        .getCount();
+      return query > 0 ? true : false;
+    } catch (error) {
+      return Promise.reject(error);
     }
   }
   ///delete Inscription

@@ -29,12 +29,12 @@ export class FormController extends AbstractRepository<Form> {
   //update Form
   async updateForm(pro: IForm, id: number): Promise<Form | IError> {
     pro.id = id;
-    const proValidate = await this.repository.findOne({ id });
-    if (proValidate) this.repository.merge(proValidate, pro);
-    else return { message: "not foun Form" } as IError;
+    let proValidate = await this.repository.findOne({ id });
+    if (proValidate) {
+      proValidate = this.repository.merge(proValidate, pro);
+    } else return { message: "not foun Form" } as IError;
     try {
       const res = await this.repository.update(id, proValidate);
-
       return proValidate;
     } catch (error) {
       return { message: "error bd", metadata: error.message } as IError;
@@ -42,8 +42,8 @@ export class FormController extends AbstractRepository<Form> {
   }
   //list Form && get Form
   async searchForm(params: Tparams): Promise<Form[] | IError> {
-    if (params.id) return this.repository.find({ id: params.id });
     try {
+      if (params.id) return this.repository.find({ id: params.id });
       if (params.name) params.name = Like(`${params.name}%`);
       const res = await this.repository.find(params);
       return res;
@@ -52,3 +52,5 @@ export class FormController extends AbstractRepository<Form> {
     }
   }
 }
+
+// console.log;

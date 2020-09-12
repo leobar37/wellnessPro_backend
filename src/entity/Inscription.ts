@@ -10,6 +10,7 @@ import {
 import { User } from "./User";
 import { Payment } from "./Payment";
 import { Pool } from "./Poll";
+
 @Entity()
 export class Inscription {
   @PrimaryGeneratedColumn()
@@ -18,11 +19,13 @@ export class Inscription {
   create!: Date;
   @Column({ nullable: true })
   expiration!: Date;
-  @Column("float4")
+  @Column("float4", { nullable: true })
   amount!: number;
+  @Column({ nullable: true })
+  idProduct!: number;
   @Column("json", { nullable: true })
   description!: string;
-  @Column()
+  @Column({ nullable: true, default: true })
   valid!: boolean;
   @ManyToOne((type) => User, (user) => user.Inscriptions)
   @JoinColumn({ name: "id_user" })

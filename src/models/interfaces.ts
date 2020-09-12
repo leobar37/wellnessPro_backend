@@ -1,5 +1,5 @@
 export interface IError {
-  ok: false;
+  ok?: false;
   code?: number;
   message: string;
   metadata?: string;
@@ -10,12 +10,13 @@ export interface Iuser {
   user?: string;
   name: string;
   lastName: string;
+  edad?: number;
   direccion?: string;
   phone?: string;
   dni?: string;
   email: string;
   isUser?: boolean;
-  password?: string;
+  password: string;
   inscriptions?: [];
 }
 

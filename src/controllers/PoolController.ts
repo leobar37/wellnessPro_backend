@@ -34,7 +34,10 @@ export class PoolController extends AbstractRepository<Pool> {
       po.question = question;
       return await this.repository.save(po);
     } catch (error) {
-      return { message: "error bd", metadata: error.message } as IError;
+      return Promise.reject({
+        message: "error bd",
+        metadata: error.message,
+      } as IError);
     }
   }
   ///delete Pool

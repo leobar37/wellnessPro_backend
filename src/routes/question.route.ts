@@ -51,7 +51,7 @@ router.get("/question", async (req: Request, res: Response) => {
   console.log(idform, params);
   const resp = await getCustomRepository(QuestionController).searchQuestion(
     params,
-    Number(idform)
+    idform && Number(idform)
   );
   if (resp instanceof Array) {
     return res.status(200).json({ ok: true, resp });

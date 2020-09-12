@@ -6,10 +6,11 @@ import { BycriptHelper } from "../helpers/Bycript.helper";
 import { JWT } from "../helpers/jwt";
 import { verifyPropertys } from "../helpers/helpers";
 import { ManageCodes } from "../helpers/ManageCodes";
-import { find } from "underscore";
 @EntityRepository(User)
 export class UserRepository extends AbstractRepository<User> {
-  async createUser(use: Iuser): Promise<string | IError> {
+  async createUser(
+    use: Iuser
+  ): Promise<{ id: string; token: string } | IError> {
     if (typeof use?.password == "string") {
       const resPas = await BycriptHelper.hashPassword(use.password);
       if (typeof resPas === "string") {
@@ -21,11 +22,20 @@ export class UserRepository extends AbstractRepository<User> {
       const user = this.repository.create(use);
       const userSave = await this.repository.save(user);
       let us = Object.assign({} as Iuser, userSave);
+      if (us.password) {
+        delete us.password;
+      }
       us = verifyPropertys(us);
-      return JWT.getToken(us);
+      return { id: us.id, token: JWT.getToken(us) } as {
+        id: string;
+        token: string;
+      };
     } catch (error) {
       const rawError = ManageCodes.searchError(error.code);
-      return { code: rawError.code, message: rawError.message } as IError;
+      return Promise.reject({
+        code: rawError.code,
+        message: rawError.message,
+      } as IError);
     }
   }
   async updateUser(id: string, user: Iuser): Promise<User | IError> {

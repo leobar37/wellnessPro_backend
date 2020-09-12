@@ -10,9 +10,13 @@ export const verifyPropertys = (obj: any) => {
         delete obj[iterator[0]];
       }
     }
+    if (!iterator[1]) {
+      delete obj[iterator[0]];
+    }
     if (typeof iterator[1] == "undefined" || iterator[1] == null) {
       delete obj[iterator[0]];
     }
   }
+
   return obj;
 };

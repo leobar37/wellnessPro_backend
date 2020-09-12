@@ -5,14 +5,25 @@ import { PoolController } from "../controllers/PoolController";
 import { Tparams } from "../models/types";
 import { Pool } from "../entity/Poll";
 import { IPool } from "../models/interfaces";
+import { verifyPropertys } from "../helpers/helpers";
 
 router.post("/Pool", async (req: Request, res: Response) => {
-  const pro: IPool = req.body;
-  const resp = await getCustomRepository(PoolController).createPool(pro);
-  if (resp instanceof Pool) {
-    return res.status(200).json({ ok: true, resp });
-  } else {
-    return res.status(500).json(resp);
+  const pros: IPool[] = req.body;
+  let results = [];
+  if (pros) {
+    try {
+      for (const pro of pros) {
+        const resp = await getCustomRepository(PoolController).createPool(pro);
+        //pool convertida en interface
+        if (resp instanceof Pool) {
+          const t = verifyPropertys(Object.assign({} as IPool, resp));
+          results.push(t);
+        }
+      }
+      return res.status(200).json({ ok: true, resp: results });
+    } catch (error) {
+      return res.status(400).json(error);
+    }
   }
 });
 
@@ -39,7 +50,7 @@ router.delete("/Pool/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/Pool", async (req: Request, res: Response) => {
+router.get("/pool", async (req: Request, res: Response) => {
   const { question, inscription, ...params } = req.query;
   const opt = {
     question: Number(question),

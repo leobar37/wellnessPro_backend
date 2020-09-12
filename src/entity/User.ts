@@ -12,7 +12,10 @@ export class User {
   lastName!: string;
   @Column("json", { nullable: true })
   direccion!: string;
-  @Column({ length: 10 })
+  @Column({ nullable: true })
+  edad!: number;
+  @Column()
+  @Column({ length: 14, nullable: true })
   phone!: string;
   @Column({ length: 12, nullable: true })
   dni!: string;

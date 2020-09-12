@@ -6,23 +6,19 @@ import { Inscription } from "../entity/Inscription";
 import { IInscription } from "../models/interfaces";
 import { isTokenValid } from "../middlewares/isAhutenticate";
 // router.use(isTokenValid);
-router.post(
-  "/inscription",
-  [isTokenValid],
-  async (req: Request, res: Response) => {
-    const pro: IInscription = req.body;
-    console.log(pro);
+router.post("/inscription", async (req: Request, res: Response) => {
+  const pro: IInscription = req.body;
+  const resp = await getCustomRepository(
+    InscriptionController
+  ).createInscription(pro);
+  if (resp instanceof Inscription) {
+    return res.status(200).json({ ok: true, resp: resp });
+  } else {
+    console.log(resp);
 
-    const resp = await getCustomRepository(
-      InscriptionController
-    ).createInscription(pro);
-    if (resp instanceof Inscription) {
-      return res.status(200).json({ ok: true, resp });
-    } else {
-      return res.status(500).json(resp);
-    }
+    return res.status(400).json(resp);
   }
-);
+});
 
 router.put(
   "/inscription/:id",

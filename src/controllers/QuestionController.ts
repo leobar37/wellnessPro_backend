@@ -55,8 +55,9 @@ export class QuestionController extends AbstractRepository<Question> {
     params: Tparams,
     idForm: number
   ): Promise<Question[] | IError> {
-    if (params.id) return this.repository.find({ id: params.id });
+  
     try {
+      if (params.id) return this.repository.find({ id: params.id });
       if (params.name) params.name = Like(`${params.name}%`);
       return this.repository.find({ where: [{ form: idForm }], ...params });
     } catch (error) {

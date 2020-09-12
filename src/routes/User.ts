@@ -9,10 +9,14 @@ import { User } from "../entity/User";
 
 router.post("/user", async (req: Request, res: Response) => {
   const us: Iuser = req.body;
-  const token = await getCustomRepository(UserRepository).createUser(us);
-  return typeof token == "string"
-    ? res.status(200).json({ ok: true, token })
-    : res.status(400).json({ ok: false, err: token });
+  console.log(us);
+
+  try {
+    const token = await getCustomRepository(UserRepository).createUser(us);
+    res.status(200).json({ ok: true, resp: token });
+  } catch (error) {
+    res.status(400).json({ ok: false, err: error });
+  }
 });
 
 router.get("/user", async (req: Request, res: Response) => {
