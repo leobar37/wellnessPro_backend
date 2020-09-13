@@ -1,5 +1,7 @@
+import { DetailInscription } from "../entity/DetailInscription";
 import { Inscription } from "../entity/Inscription";
 import { Pool } from "../entity/Poll";
+import { Requirement } from "../entity/Requiremtent";
 import { User } from "../entity/User";
 
 export interface IError {
@@ -38,11 +40,11 @@ export interface IInscription {
   create?: Date;
   expiration?: Date;
   amount?: number;
-  requeriments?: [];
   description?: string;
-  detailsInscriptions?: [];
+  detailsInscriptions?: DetailInscription[];
   valid?: boolean;
-  pools: [];
+  pools?: [];
+  requeriments?: Requirement[];
 }
 
 export interface IPayment {
@@ -80,7 +82,14 @@ export interface IQuestion {
   form?: IForm;
   idForm?: number;
 }
-
+export interface IRequeriment {
+  id?: number;
+  idProduct?: number;
+  type?: string;
+  description?: string;
+  detailsInscription?: [];
+  inscription?: IInscription;
+}
 export interface IDetailInscription {
   id?: number;
   idPago?: string;
@@ -89,6 +98,6 @@ export interface IDetailInscription {
   user?: User;
   pools?: [];
   idUser?: string;
-  inscription: Inscription;
-  requirements?: [];
+  inscription?: IInscription;
+  requirements?: Array<IRequeriment>;
 }

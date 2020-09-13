@@ -38,11 +38,6 @@ router.put(
   }
 );
 
-/**
- * @param tipo de inscripcion : ?  = determina que tipo de inscripcion desea
- * @param idUser =  obligatorio para crear la inscripcion
- */
-router.post("/");
 router.delete(
   "/inscription/:id",
   [isTokenValid],

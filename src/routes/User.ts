@@ -5,12 +5,9 @@ import { UserRepository } from "../controllers/UserController";
 import { Iuser } from "../models/interfaces";
 
 import { User } from "../entity/User";
-// const repoUser = getCustomRepository(UserRepository);
 
 router.post("/user", async (req: Request, res: Response) => {
   const us: Iuser = req.body;
-  console.log(us);
-
   try {
     const token = await getCustomRepository(UserRepository).createUser(us);
     res.status(200).json({ ok: true, resp: token });

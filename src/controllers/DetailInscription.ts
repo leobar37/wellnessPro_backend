@@ -31,7 +31,6 @@ export class DetailInscriptionController extends AbstractRepository<
     }
   }
   /**
-   *
    * @param type :  tipo de la inscripcion
    */
   async consultInscription(opt: {
@@ -39,16 +38,18 @@ export class DetailInscriptionController extends AbstractRepository<
     idUser: string;
   }): Promise<IError | DetailInscription> {
     /**
+     *
      * buscar la inscripcion en curso
      * crea un detalle de inscripcion
      * con el participante
      * pero pendiente a pago
      */
     opt.typeinscription = opt.typeinscription || "DESAFIO";
-
     try {
-      if (await this.haveDetailInscriptions(opt.idUser)) {
-        return ManageCodes.searchErrors(30);
+      const hasInscription = await this.haveDetailInscriptions(opt.idUser);
+
+      if (typeof hasInscription !== "boolean") {
+        return await this.repository.findOne({ id: hasInscription.id });
       }
       const idInscription = await this.manager
         .createQueryBuilder()
@@ -69,12 +70,15 @@ export class DetailInscriptionController extends AbstractRepository<
         delete detailInscription.user;
         return detailInscription;
       }
+      Promise.reject(30);
     } catch (error) {
       Promise.reject(error.code);
     }
     return ManageCodes.searchErrors(-1);
   }
-  async haveDetailInscriptions(idUser: string): Promise<boolean> {
+  async haveDetailInscriptions(
+    idUser: string
+  ): Promise<{ id: number } | false> {
     /* hasta aqui se ha hecho un select a users
         y se le ha renombrado con user
       */
@@ -82,19 +86,20 @@ export class DetailInscriptionController extends AbstractRepository<
       const query = await this.manager
         .createQueryBuilder()
         .from(User, "user")
-        .select("user.id")
-        .addSelect("ins.id")
+        .addSelect("ins.id as id")
         .innerJoin("user.detailInscriptions", "ins")
         .where(
           (qb) => {
-            return "user.id = :id and ins.status = :valid";
+            return "user.id = :id and ins.idPago is null and ins.status = :valid";
           },
-          { id: idUser, valid: false }
+          { id: idUser, valid: true }
         )
-        .getCount();
-      return query > 0 ? true : false;
+        .getRawOne();
+      return typeof query == "undefined" ? (query as { id: number }) : false;
     } catch (error) {
-      return Promise.reject(error);
+      console.log(error);
+
+      return false;
     }
   }
   ///delete DetailInscription

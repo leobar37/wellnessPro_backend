@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { DetailInscription } from "./DetailInscription";
-
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")

@@ -52,5 +52,3 @@ export class FormController extends AbstractRepository<Form> {
     }
   }
 }
-
-// console.log;
