@@ -55,7 +55,7 @@ export class InscriptionController extends AbstractRepository<Inscription> {
   }
   //list Inscription && get Inscription
   async searchInscrition(params: Tparams): Promise<Inscription[] | IError> {
-    if (params.id) return this.repository.find({ id: params.id });
+    if (params.id) return this.repository.find({ id: params.id});
     try {
       return this.repository.find({ ...params });
     } catch (error) {

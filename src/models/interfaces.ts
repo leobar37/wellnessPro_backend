@@ -95,6 +95,7 @@ export interface IRequeriment {
 }
 export interface IDetailInscription {
   id?: number;
+  idInscription?: number;
   idPago?: string;
   status?: boolean;
   metadata?: string;

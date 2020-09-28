@@ -21,8 +21,12 @@ export class DetailInscriptionController extends AbstractRepository<
       // usuario listo ahora busca si no tiene una inscricion en curso
       // el usuario no puede estar una inscripcion
       if (!use) return ManageCodes.searchErrors(31);
-      const existDetailInscription = await this.haveDetailInscriptions(use?.id);
-      if (existDetailInscription) return ManageCodes.searchErrors(30);
+      const existDetailInscription = await this.haveDetailInscriptions(
+        use?.id,
+        detailInscription.idInscription
+      );
+      if (typeof existDetailInscription != "boolean")
+        return ManageCodes.searchErrors(30);
       let inscr = this.repository.create(detailInscription);
       inscr.user = use;
       return await this.repository.save(inscr);
@@ -46,43 +50,42 @@ export class DetailInscriptionController extends AbstractRepository<
      */
     opt.typeinscription = opt.typeinscription || "DESAFIO";
     try {
-      const hasInscription = await this.haveDetailInscriptions(opt.idUser);
-
-      if (typeof hasInscription !== "boolean") {
-        return await this.repository.findOne({ id: hasInscription.id });
-      }
-      const idInscription = await this.manager
-        .createQueryBuilder()
-        .from(Setting, "setting")
-        .where("setting.key = :key", { key: opt.typeinscription })
-        .getOne();
-      const ins = await this.manager.findOne(Inscription, idInscription);
-      if (typeof ins == "undefined") {
-        return ManageCodes.searchErrors(34);
-      }
+      // const hasInscription = await this.haveDetailInscriptions(opt.idUser);
+      // if (typeof hasInscription !== "boolean") {
+      //   return await this.repository.findOne({ id: hasInscription.id });
+      // }
+      // const idInscription = await this.manager
+      //   .createQueryBuilder()
+      //   .from(Setting, "setting")
+      //   .where("setting.key = :key", { key: opt.typeinscription })
+      //   .getOne();
+      // // const ins = await this.manager.findOne(Inscription, idInscription);
+      // if (typeof ins == "undefined") {
+      //   return ManageCodes.searchErrors(34);
+      // }
       // id de la inscripcion en curso
-      const detailInscription = await this.createDetailInscription({
-        idUser: opt.idUser,
-        inscription: ins,
-        status: true,
-      });
-      if (detailInscription instanceof DetailInscription) {
-        delete detailInscription.user;
-        return detailInscription;
-      }
-     return ManageCodes.searchErrors(30);
+      // const detailInscription = await this.createDetailInscription({
+      //   idUser: opt.idUser,
+      //   inscription: ins,
+      //   status: true,
+      // });
+      // if (detailInscription instanceof DetailInscription) {
+      //   delete detailInscription.user;
+      //   return detailInscription;
+      // }
+      // return ManageCodes.searchErrors(30);
     } catch (error) {
       console.log("error here");
       console.log(error);
-      return ManageCodes.searchErrors(error.code)
+      return ManageCodes.searchErrors(error.code);
     }
   }
   async haveDetailInscriptions(
-    idUser: string
+    idUser: string,
+    idInscription: number
   ): Promise<{ id: number } | false> {
-    /* hasta aqui se ha hecho un select a users
-        y se le ha renombrado con user
-      */
+    /* hasta aqui se ha hecho un select a users        y se le ha renombrado con user
+     */
     try {
       const query = await this.manager
         .createQueryBuilder()
@@ -91,15 +94,13 @@ export class DetailInscriptionController extends AbstractRepository<
         .innerJoin("user.detailInscriptions", "ins")
         .where(
           (qb) => {
-            return "user.id = :id and ins.idPago is null and ins.status = :valid";
+            return "user.id = :id and ins.id = :insId";
           },
-          { id: idUser, valid: true }
+          { id: idUser, insId: idInscription }
         )
         .getRawOne();
       return typeof query == "undefined" ? (query as { id: number }) : false;
     } catch (error) {
-      console.log(error);
-
       return false;
     }
   }
