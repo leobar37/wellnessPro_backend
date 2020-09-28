@@ -19,6 +19,8 @@ export class InscriptionController extends AbstractRepository<Inscription> {
       let inscr = this.repository.create(inscription);
       return await this.repository.save(inscr);
     } catch (error) {
+      console.log(error.code);
+
       return ManageCodes.searchErrors(error.code);
     }
   }

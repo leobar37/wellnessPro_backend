@@ -11,6 +11,10 @@ enum types {
 }
 export const codes: Icode[] = [
   {
+    code: 23502,
+    message: "Los datos no estan completos",
+  },
+  {
     code: 23505,
     message: "este registro ya existe",
     codeRes: 5,

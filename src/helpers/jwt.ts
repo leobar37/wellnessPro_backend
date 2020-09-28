@@ -1,3 +1,4 @@
+import { throws } from "assert";
 import jwt from "jsonwebtoken";
 import { SECRET, EXPIRESTOKEN } from "../globals/enviroment";
 import { IError } from "../models/interfaces";
@@ -8,6 +9,14 @@ export class JWT {
       return Object.assign({} as T, decode);
     } catch (error) {
       return { message: "not valid token" } as IError;
+    }
+  }
+  static verify(enconde: string): boolean | IError {
+    try {
+      const decode = jwt.verify(enconde, SECRET);
+      return decode ? true : false;
+    } catch (error) {
+      return false;
     }
   }
   static getToken(payload: any): string | IError {

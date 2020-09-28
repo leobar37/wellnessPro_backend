@@ -7,12 +7,11 @@ import { IInscription } from "../models/interfaces";
 import { isTokenValid } from "../middlewares/isAhutenticate";
 
 router.post("/inscription", async (req: Request, res: Response) => {
-  console.log("here");
-
   const pro: IInscription = req.body;
   const resp = await getCustomRepository(
     InscriptionController
   ).createInscription(pro);
+
   if (resp instanceof Inscription) {
     return res.status(200).json({ ok: true, resp: resp });
   } else {
@@ -20,53 +19,41 @@ router.post("/inscription", async (req: Request, res: Response) => {
   }
 });
 
-router.put(
-  "/inscription/:id",
-  [isTokenValid],
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const idNum = Number(id);
-    const pro: IInscription = req.body;
-    const resp = await getCustomRepository(
-      InscriptionController
-    ).updateInscription(pro, idNum);
-    if (resp instanceof Inscription) {
-      return res.status(200).json({ ok: true, resp });
-    } else {
-      return res.status(500).json(resp);
-    }
+router.put("/inscription/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const idNum = Number(id);
+  const pro: IInscription = req.body;
+  const resp = await getCustomRepository(
+    InscriptionController
+  ).updateInscription(pro, idNum);
+  if (resp instanceof Inscription) {
+    return res.status(200).json({ ok: true, resp });
+  } else {
+    return res.status(500).json(resp);
   }
-);
+});
 
-router.delete(
-  "/inscription/:id",
-  [isTokenValid],
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const idNum = Number(id);
-    const resp = await getCustomRepository(
-      InscriptionController
-    ).deleteInscription(idNum);
-    if (resp instanceof Inscription) {
-      return res.status(200).json({ ok: true, resp });
-    } else {
-      return res.status(500).json(resp);
-    }
+router.delete("/inscription/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const idNum = Number(id);
+  const resp = await getCustomRepository(
+    InscriptionController
+  ).deleteInscription(idNum);
+  if (resp instanceof Inscription) {
+    return res.status(200).json({ ok: true, resp });
+  } else {
+    return res.status(500).json(resp);
   }
-);
-router.get(
-  "/inscription",
-  [isTokenValid],
-  async (req: Request, res: Response) => {
-    const { ...params } = req.query;
-    const resp = await getCustomRepository(
-      InscriptionController
-    ).searchInscrition(params);
-    if (resp instanceof Array) {
-      return res.status(200).json({ ok: true, resp });
-    } else {
-      return res.status(500).json(resp);
-    }
+});
+router.get("/inscription", async (req: Request, res: Response) => {
+  const { ...params } = req.query;
+  const resp = await getCustomRepository(
+    InscriptionController
+  ).searchInscrition(params);
+  if (resp instanceof Array) {
+    return res.status(200).json({ ok: true, resp });
+  } else {
+    return res.status(500).json(resp);
   }
-);
+});
 export default router;

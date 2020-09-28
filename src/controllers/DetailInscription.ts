@@ -58,7 +58,7 @@ export class DetailInscriptionController extends AbstractRepository<
         .getOne();
       const ins = await this.manager.findOne(Inscription, idInscription);
       if (typeof ins == "undefined") {
-        return Promise.reject(ManageCodes.searchErrors(34));
+        return ManageCodes.searchErrors(34);
       }
       // id de la inscripcion en curso
       const detailInscription = await this.createDetailInscription({
@@ -70,11 +70,12 @@ export class DetailInscriptionController extends AbstractRepository<
         delete detailInscription.user;
         return detailInscription;
       }
-      Promise.reject(30);
+     return ManageCodes.searchErrors(30);
     } catch (error) {
-      Promise.reject(error.code);
+      console.log("error here");
+      console.log(error);
+      return ManageCodes.searchErrors(error.code)
     }
-    return ManageCodes.searchErrors(-1);
   }
   async haveDetailInscriptions(
     idUser: string

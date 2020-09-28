@@ -3,9 +3,7 @@ export const SECRET: string =
   process.env.SECRET || "wellnesprosecretpassworbackendleobar";
 
 export const EXPIRESTOKEN: string = process.env.EXPIRESTOKEN || "2h";
-
 export const SALTPASSWORD: number = Number(process.env.SALTPASSWORD) || 10;
-
 export const CLIENTIDPAYPAL =
   "AUEEc8VanjbcryNbf57htXTtTF49Gg-PfDyd8UM1v3Jfcod7wkD00Rx6_XtMZk7Lf7YF5vVwlinhQ6YA";
 export const CLIENTSECRETPAYPAL =

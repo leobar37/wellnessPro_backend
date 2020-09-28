@@ -37,6 +37,9 @@ export interface IProduct {
 }
 export interface IInscription {
   id?: number;
+  name: string;
+  realPrice: number;
+  ofertPrice: number;
   create?: Date;
   expiration?: Date;
   amount?: number;

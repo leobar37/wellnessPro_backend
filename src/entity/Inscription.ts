@@ -7,8 +7,14 @@ export class Inscription {
   id!: number;
   @Column("timestamp", { default: () => "CURRENT_TIMESTAMP", nullable: true })
   create!: Date;
+  @Column({ length: 50 })
+  name: string;
   @Column({ nullable: true })
   expiration!: Date;
+  @Column("float4", { name: "real_price", nullable: true })
+  realPrice: number;
+  @Column("float4", { name: "ofert_price" })
+  ofertPrice: number;
   @Column("float4", { nullable: true })
   amount!: number;
   @Column("json", { nullable: true })
