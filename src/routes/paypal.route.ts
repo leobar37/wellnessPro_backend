@@ -1,12 +1,13 @@
 import { Request, Response, Router } from "express";
 import { CLIENTIDPAYPAL, CLIENTSECRETPAYPAL } from "../globals/enviroment";
-import { getConnection, getManager } from "typeorm";
+import { getConnection, getManager, getRepository } from "typeorm";
 import {
   IPaypalUnit,
   IbodyPaypment,
   IPaypalItem,
 } from "../models/paypalInterfaces";
 import { Inscription } from "../entity/Inscription";
+import { User } from "../entity/User";
 const paypal = require("@paypal/checkout-server-sdk");
 const router = Router();
 let environment = new paypal.core.SandboxEnvironment(
@@ -15,32 +16,38 @@ let environment = new paypal.core.SandboxEnvironment(
 );
 let client = new paypal.core.PayPalHttpClient(environment);
 router.get("/checkoutOrder", async (req, res) => {
-  const { typepayment, isUser, idInscription } = req.query;
-
-  console.log(typepayment);
-
+  const { typepayment, id_user, idInscription } = req.query;
   let bodyPayment: IbodyPaypment = { intent: "CAPTURE", purchase_units: [] };
   let items = [];
+  let request = new paypal.orders.OrdersCreateRequest();
   if (typepayment == "INSCRIPTION") {
-    const inscription = await getConnection().manager.findOne(
-      Inscription,
-      idInscription
-    );
+    const inscription = await getRepository(Inscription).findOne({
+      id: Number(idInscription),
+    });
+    const user = await getRepository(User).findOne({ id: String(id_user) });
     const unit: IPaypalUnit = {
-      description: "my payment",
+      description: `${user.name} + ${user.lastName} - ${inscription.name}`,
       amount: { currency: "USD", value: String(inscription.ofertPrice) },
     };
-    items.push(unit);
-    bodyPayment.purchase_units = items;
+    request.requestBody({
+      intent: "CAPTURE",
+      purchase_units: [
+        {
+          description: "test description",
+          amount: {
+            currency_code: "USD",
+            value: String(inscription.ofertPrice),
+          },
+        },
+      ],
+    });
   }
-  let request = new paypal.orders.OrdersCreateRequest();
-  request.requestBody(bodyPayment);
+
   const createOrder = async () => {
     try {
       const response = await client.execute(request);
       console.log(response);
       console.log(response.result.id);
-
       return response.result;
     } catch (error) {
       console.log(error);
