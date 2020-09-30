@@ -8,3 +8,5 @@ export const CLIENTIDPAYPAL =
   "AUEEc8VanjbcryNbf57htXTtTF49Gg-PfDyd8UM1v3Jfcod7wkD00Rx6_XtMZk7Lf7YF5vVwlinhQ6YA";
 export const CLIENTSECRETPAYPAL =
   "ENr68wWDpA4Y2TqmWgVzAXYEk0XI4MR9sb24JP5cYxvL-8tWXN_LXKSXF0Ge3mOTXlv1oidzZOGxlEqh";
+
+export const HostFrotend = "lo";

@@ -8,6 +8,7 @@ import path, { dirname } from "path";
 import socketIo from "socket.io";
 import * as socket from "../sockets/socket";
 import * as middlewaresErrors from "../middlewares/handeError";
+import hbs from "express-handlebars";
 import router from "../routes/User";
 export default class Server {
   private static _instance: Server;
@@ -19,6 +20,7 @@ export default class Server {
     this.app = express();
     this.port = PORT_SERVER;
     this.confiExpres();
+    this.configViews();
     this.app.use(middlewaresErrors.errorHandler);
     this.serveHttp = new http.Server(this.app);
     this.io = socketIo(this.serveHttp);
@@ -36,6 +38,20 @@ export default class Server {
     const routePublic = path.join(__dirname, "../../public");
     this.app.use(express.static(routePublic));
     this.app.use(routes);
+  }
+  private configViews() {
+    this.app.set("views", path.join(__dirname, "../views"));
+    this.app.engine(
+      ".hbs",
+      hbs({
+        extname: ".hbs",
+        defaultLayout: "main",
+        layoutsDir: path.join(this.app.get("views"), "layouts"),
+        partialsDir: path.join(this.app.get("views"), "partials"),
+        helpers: path.join(this.app.get("views"), "helpers/*.ts"),
+      })
+    );
+    this.app.set("view engine", ".hbs");
   }
   private escucharSockets() {
     this.io.on("connection", (cliente) => {

@@ -9,8 +9,10 @@ import FileRoute from "./files.route";
 import SettingRoutes from "./Setting";
 import detailInscriptionRoute from "./Detail.inscription.route";
 import SettingAdmin from "./settins.route";
+import HelperRoute from "../routes/helpers.route";
 import PaypalRoutes from "./paypal.route";
 const router = Router();
+router.use(HelperRoute);
 router.use(detailInscriptionRoute);
 router.use(UserRoutes);
 router.use(SettingAdmin);
@@ -22,4 +24,7 @@ router.use(PoolRoute);
 router.use(inscriptionRoute);
 router.use(questionRoute);
 router.use(PaypalRoutes);
+router.get("/", (req, res) => {
+  res.render("index", { message: "hello world" });
+});
 export default router;

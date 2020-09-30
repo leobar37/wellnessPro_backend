@@ -6,12 +6,14 @@ import { BycriptHelper } from "../helpers/Bycript.helper";
 import { JWT } from "../helpers/jwt";
 import { verifyPropertys } from "../helpers/helpers";
 import { ManageCodes } from "../helpers/ManageCodes";
+import { sendEmailWithTemplate } from "../classes/nodemailer";
 @EntityRepository(User)
 export class UserRepository extends AbstractRepository<User> {
   async createUser(
     use: Iuser
   ): Promise<{ id: string; token: string } | IError> {
     if (typeof use?.password == "string") {
+      //encript password
       const resPas = await BycriptHelper.hashPassword(use.password);
       if (typeof resPas === "string") {
         use.password = resPas;
@@ -19,6 +21,7 @@ export class UserRepository extends AbstractRepository<User> {
       }
     }
     try {
+      use.confirm = false;
       const user = this.repository.create(use);
       const userSave = await this.repository.save(user);
       let us = Object.assign({} as Iuser, userSave);
@@ -26,6 +29,13 @@ export class UserRepository extends AbstractRepository<User> {
         delete us.password;
       }
       us = verifyPropertys(us);
+      // confirm email
+      sendEmailWithTemplate({
+        template: "confirm",
+        email: us.email,
+        subject: "Wellness pro confirmación de email",
+        data: { link: `http://localhost:5000/verifyemail/${us.id}` },
+      });
       return { id: us.id, token: JWT.getToken(us) } as {
         id: string;
         token: string;
@@ -38,6 +48,8 @@ export class UserRepository extends AbstractRepository<User> {
       } as IError);
     }
   }
+  async verifyEmail() {}
+
   async updateUser(id: string, user: Iuser): Promise<User | IError> {
     user.id = id;
     const userUpdate = await this.repository.findOne({ id });

@@ -91,6 +91,7 @@ export class DetailInscriptionController extends AbstractRepository<
         .createQueryBuilder()
         .from(User, "user")
         .addSelect("ins.id as id")
+
         .innerJoin("user.detailInscriptions", "ins")
         .where(
           (qb) => {
@@ -99,7 +100,7 @@ export class DetailInscriptionController extends AbstractRepository<
           { id: idUser, insId: idInscription }
         )
         .getRawOne();
-      return typeof query == "undefined" ? (query as { id: number }) : false;
+      return typeof query == "undefined" ? false : (query as { id: number });
     } catch (error) {
       return false;
     }
@@ -138,7 +139,7 @@ export class DetailInscriptionController extends AbstractRepository<
   //list DetailInscription && get DetailInscription
   async searchDetailInscription(
     params: Tparams,
-    opt: { user?: string }
+    opt?: { user?: string }
   ): Promise<DetailInscription[] | IError> {
     if (params.id) return this.repository.find({ id: params.id });
     try {

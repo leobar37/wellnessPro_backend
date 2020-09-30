@@ -15,8 +15,9 @@ export interface Iuser {
   id?: string;
   user?: string;
   name: string;
-  lastName: string;
-  edad?: number;
+  confirm?: boolean;
+  lastNaue: string;
+  edad?: Date;
   direccion?: string;
   phone?: string;
   dni?: string;
