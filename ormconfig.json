@@ -1,11 +1,11 @@
 {
   "name": "default",
   "type": "postgres",
-  "host": "localhost",
-  "port": 5432,
-  "username": "postgres",
-  "password": "alfk3458",
-  "database": "bd_wellnesspro",
+  "host": "bdwellnesspro-do-user-8083783-0.b.db.ondigitalocean.com",
+  "port": 25060,
+  "username": "doadmin",
+  "password": "t2wjk0zl36egrmg4",
+  "database": "defaultdb",
   "synchronize": true,
   "logging": false,
   "entities": ["dist/entity/**/*.js", "dist/controllers/**/*.js"]
