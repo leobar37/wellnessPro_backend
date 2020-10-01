@@ -7,9 +7,11 @@ import http from "http";
 import path, { dirname } from "path";
 import socketIo from "socket.io";
 import * as socket from "../sockets/socket";
+import { handleSocket } from "../sockets/socket";
 import * as middlewaresErrors from "../middlewares/handeError";
 import hbs from "express-handlebars";
 import router from "../routes/User";
+import { EventEmitter } from "events";
 export default class Server {
   private static _instance: Server;
   public app: express.Application;
@@ -19,12 +21,12 @@ export default class Server {
   private constructor() {
     this.app = express();
     this.port = PORT_SERVER;
-    this.confiExpres();
     // this.configViews();
     this.app.use(middlewaresErrors.errorHandler);
     this.serveHttp = new http.Server(this.app);
     this.io = socketIo(this.serveHttp);
     this.escucharSockets();
+    this.confiExpres();
   }
   public static get instance() {
     return this._instance || (this._instance = new Server());
@@ -54,12 +56,17 @@ export default class Server {
     this.app.set("view engine", ".hbs");
   }
   private escucharSockets() {
-    this.io.on("connection", (cliente) => {
-      //conectar client
-      socket.conectarCliente(cliente);
-      //flujo de mensajes
-      //desconeccion de los sockets
-      socket.desconectar(cliente);
+    this.io.on("connection", (client) => {
+      console.log("se conectaron");
+      handleSocket.event.removeAllListeners("emailConfirm");
+      handleSocket.event.on("emailConfirm", (idUser) => {
+        client.emit("emailConfirm", idUser);
+      });
+      // //conectar client
+      // socket.conectarCliente(client);
+      // //flujo de mensajes
+      // //desconeccion de los sockets
+      // socket.desconectar(client);
     });
   }
   start(resolve: any) {

@@ -3,6 +3,7 @@
  en el objeto
  author :  yo
 */
+import { readFile } from "fs";
 export const verifyPropertys = (obj: any) => {
   for (let iterator of Object.entries(obj)) {
     if (iterator[1] instanceof Number) {
@@ -19,4 +20,17 @@ export const verifyPropertys = (obj: any) => {
   }
 
   return obj;
+};
+
+export const readHtml = (
+  path: string,
+  callback: (err: any, html: any) => void
+) => {
+  readFile(path, { encoding: "utf-8" }, (err, html) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, html);
+    }
+  });
 };

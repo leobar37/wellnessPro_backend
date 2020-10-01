@@ -59,6 +59,8 @@ router.get("/checkoutOrder", async (req, res) => {
         return res.status(400).json({ ok: false, detail });
       }
     } catch (error) {
+      console.log("my error");
+
       console.log(error);
       return res.status(400).json({ ok: false });
     }
