@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import Server from "./classes/server";
 import { createConnection, getCustomRepository, getManager } from "typeorm";
-import { InscriptionController } from "./controllers/InscriptionsController";
+
 createConnection().then((data) => {
   const server = Server.instance;
   server.start(async () => {

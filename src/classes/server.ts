@@ -20,7 +20,7 @@ export default class Server {
     this.app = express();
     this.port = PORT_SERVER;
     this.confiExpres();
-    this.configViews();
+    // this.configViews();
     this.app.use(middlewaresErrors.errorHandler);
     this.serveHttp = new http.Server(this.app);
     this.io = socketIo(this.serveHttp);
