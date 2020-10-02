@@ -31,12 +31,8 @@ export class UserRepository extends AbstractRepository<User> {
       }
       us = verifyPropertys(us);
       // confirm email
-      sendEmailWithTemplate({
-        template: "confirm",
-        email: us.email,
-        subject: "Wellness pro confirmación de email",
-        data: { link: `${HOST}/verifyemail/${us.id}` },
-      });
+      await this.verifyEmail(us);
+
       return { id: us.id, token: JWT.getToken(us) } as {
         id: string;
         token: string;
@@ -49,7 +45,15 @@ export class UserRepository extends AbstractRepository<User> {
       } as IError);
     }
   }
-  async verifyEmail() {}
+  async verifyEmail(us: Iuser) {
+    const res = await sendEmailWithTemplate({
+      template: "confirm",
+      email: us.email,
+      subject: "Wellness pro confirmación de email",
+      data: { link: `${HOST}/verifyemail/${us.id}` },
+    });
+    return res;
+  }
 
   async updateUser(id: string, user: Iuser): Promise<User | IError> {
     user.id = id;

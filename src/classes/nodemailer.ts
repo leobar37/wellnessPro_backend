@@ -4,7 +4,7 @@ import { readFile, writeFile } from "fs";
 import { Nodemailer } from "../helpers/Nodemailer";
 import { readHtml } from "../helpers/helpers";
 
-export const sendEmailWithTemplate = (data: {
+export const sendEmailWithTemplate = async (data: {
   template: string;
   email: string;
   subject: string;

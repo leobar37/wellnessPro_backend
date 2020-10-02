@@ -12,6 +12,7 @@ export const CLIENTSECRETPAYPAL =
 export const HostFrotend = "lo";
 
 let host = "https://www.wellnessproapi.com";
+// let host = "http://localhost:5000";
 let env = process.argv[2] || "dev";
 // switch (env) {
 //   case "dev":
