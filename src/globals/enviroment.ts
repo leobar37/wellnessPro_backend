@@ -13,14 +13,14 @@ export const HostFrotend = "lo";
 
 let host = "https://www.wellnessproapi.com";
 let env = process.argv[2] || "dev";
-switch (env) {
-  case "dev":
-    // Setup development config
-    host = "http://localhost:5000";
-    break;
-  case "prod":
-    // Setup production config
-    break;
-}
+// switch (env) {
+//   case "dev":
+//     // Setup development config
+//     host = "http://localhost:5000";
+//     break;
+//   case "prod":
+//     // Setup production config
+//     break;
+// }
 
 export const HOST = host;
