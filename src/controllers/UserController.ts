@@ -4,6 +4,7 @@ import { IError, Iuser } from "../models/interfaces";
 import { Tparams } from "../models/types";
 import { BycriptHelper } from "../helpers/Bycript.helper";
 import { JWT } from "../helpers/jwt";
+import { HOST } from "../globals/enviroment";
 import { verifyPropertys } from "../helpers/helpers";
 import { ManageCodes } from "../helpers/ManageCodes";
 import { sendEmailWithTemplate } from "../classes/nodemailer";
@@ -34,7 +35,7 @@ export class UserRepository extends AbstractRepository<User> {
         template: "confirm",
         email: us.email,
         subject: "Wellness pro confirmación de email",
-        data: { link: `http://localhost:5000/verifyemail/${us.id}` },
+        data: { link: `${HOST}/verifyemail/${us.id}` },
       });
       return { id: us.id, token: JWT.getToken(us) } as {
         id: string;

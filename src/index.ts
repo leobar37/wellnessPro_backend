@@ -1,9 +1,10 @@
 import "reflect-metadata";
 import Server from "./classes/server";
 import { createConnection, getCustomRepository, getManager } from "typeorm";
-
+import { HOST } from "./globals/enviroment";
 createConnection().then((data) => {
   const server = Server.instance;
+  console.log("my host", HOST);
   server.start(async () => {
     console.log("listen on port: " + server.port);
   });

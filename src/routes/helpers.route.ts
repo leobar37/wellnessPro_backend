@@ -3,7 +3,7 @@ import app from "./Setting";
 const router = Router();
 import { getRepository } from "typeorm";
 import { User } from "../entity/User";
-import {} from "../sockets/socket";
+
 import { handleSocket } from "../sockets/socket";
 app.use("/verifyemail/:id", async (req, res) => {
   const { id } = req.params;
