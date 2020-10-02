@@ -21,7 +21,7 @@ export default class Server {
   private constructor() {
     this.app = express();
     this.port = PORT_SERVER;
-    // this.configViews();
+    this.configViews();
     this.app.use(middlewaresErrors.errorHandler);
     this.serveHttp = new http.Server(this.app);
     this.io = socketIo(this.serveHttp);
@@ -42,7 +42,7 @@ export default class Server {
     this.app.use(routes);
   }
   private configViews() {
-    this.app.set("views", path.join(__dirname, "../views"));
+    this.app.set("views", path.join(__dirname, "../../views"));
     this.app.engine(
       ".hbs",
       hbs({
@@ -50,7 +50,7 @@ export default class Server {
         defaultLayout: "main",
         layoutsDir: path.join(this.app.get("views"), "layouts"),
         partialsDir: path.join(this.app.get("views"), "partials"),
-        helpers: path.join(this.app.get("views"), "helpers/*.ts"),
+        helpers: path.join(this.app.get("views"), "helpers/*.js"),
       })
     );
     this.app.set("view engine", ".hbs");

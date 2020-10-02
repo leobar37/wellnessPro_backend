@@ -26,6 +26,6 @@ router.use(questionRoute);
 router.use(PaypalRoutes);
 router.get("/", (req, res) => {
   // res.render("index", { message: "hello world" });
-  res.send("welcome wellnes pro api");
+  res.render("index");
 });
 export default router;

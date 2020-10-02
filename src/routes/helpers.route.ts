@@ -9,15 +9,13 @@ app.use("/verifyemail/:id", async (req, res) => {
   const { id } = req.params;
   const repository = getRepository(User);
   const use = await repository.findOne({ id });
-  console.log(use);
-
   if (use) {
     let useMod = { ...use };
     useMod.confirm = true;
     await repository.update(use.id, useMod);
     handleSocket.event.emit("emailConfirm", useMod.id);
-    res.send("Confirmado");
-    // res.render("refs/confirm", { use });
+    // res.send("Confirmado");
+    res.render("cofirm/email");
   }
 });
 
