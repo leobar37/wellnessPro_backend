@@ -51,6 +51,7 @@ router.get("/checkoutOrder", async (req, res) => {
         idInscription: inscription.id,
         status: false,
       });
+
       if (detail instanceof DetailInscription) {
         return res
           .status(200)
@@ -59,9 +60,6 @@ router.get("/checkoutOrder", async (req, res) => {
         return res.status(400).json({ ok: false, detail });
       }
     } catch (error) {
-      console.log("my error");
-
-      console.log(error);
       return res.status(400).json({ ok: false });
     }
   };
@@ -95,4 +93,5 @@ router.get("/notifypaymen", async (req, res) => {
     res.status(400).json({ ok: false });
   }
 });
+
 export default router;

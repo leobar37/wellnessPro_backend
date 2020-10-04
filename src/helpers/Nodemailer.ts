@@ -5,7 +5,7 @@ import nodemailer, {
 } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
-import { reject } from "underscore";
+import { EMAILPRINCIPAL } from "../globals/enviroment";
 export class Nodemailer {
   createTransporter(data: TransPorterType): Mail | false {
     try {
@@ -27,8 +27,8 @@ export class Nodemailer {
       const transport = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "usatloqueando@gmail.com",
-          pass: "182alfk3458",
+          user: EMAILPRINCIPAL.email,
+          pass: EMAILPRINCIPAL.password,
         },
       } as TransportOptions);
       let mailOptions = {

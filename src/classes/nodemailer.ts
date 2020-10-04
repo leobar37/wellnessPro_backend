@@ -10,9 +10,9 @@ export const sendEmailWithTemplate = async (data: {
   subject: string;
   data: any;
 }) => {
-  const path = resolve(__dirname + `../../../public/emails/${data.template}.hbs`);
-  console.log(path);
-
+  const path = resolve(
+    __dirname + `../../../public/emails/${data.template}.hbs`
+  );
   readHtml(path, (err, html) => {
     const template = handlebars.compile(html);
     let htmlsend = template(data.data);

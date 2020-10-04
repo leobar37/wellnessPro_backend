@@ -22,7 +22,6 @@ export class DetailPayment {
   @ManyToOne((type) => Payment, (pay) => pay.detaillsPayment)
   @JoinColumn({ name: "id_payment" })
   payment!: Payment;
-
   @ManyToOne((type) => Product, (pr) => pr.detailsPaymen)
   @JoinColumn({ name: "id_product" })
   product!: Product;

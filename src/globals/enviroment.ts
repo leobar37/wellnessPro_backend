@@ -11,6 +11,10 @@ export const CLIENTSECRETPAYPAL =
 
 export const HostFrotend = "lo";
 
+export const EMAILPRINCIPAL = {
+  email: "wellnesspro.contacto@gmail.com",
+  password: "UYkiUlCT6SAN",
+};
 let host = "https://www.wellnessproapi.com";
 // let host = "http://localhost:5000";
 let env = process.argv[2] || "dev";
@@ -23,5 +27,4 @@ let env = process.argv[2] || "dev";
 //     // Setup production config
 //     break;
 // }
-
 export const HOST = host;

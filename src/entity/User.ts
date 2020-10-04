@@ -6,6 +6,7 @@ export class User {
   id!: string;
   @Column({ length: 50, nullable: true, unique: true })
   user!: string;
+
   @Column({ length: 60 })
   name!: string;
   @Column({ length: 60, name: "last_name" })
