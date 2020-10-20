@@ -1,11 +1,11 @@
-import { EntityRepository, AbstractRepository, getManager } from "typeorm";
-import { DetailInscription } from "../entity/DetailInscription";
-import { IDetailInscription, IError } from "../models/interfaces";
-import { Tparams } from "../models/types";
-import { ManageCodes } from "../helpers/ManageCodes";
-import { User } from "../entity/User";
-import { Setting } from "../entity/Setting";
-import { Inscription } from "../entity/Inscription";
+import { EntityRepository, AbstractRepository, getManager } from 'typeorm';
+import { DetailInscription } from '../entity/DetailInscription';
+import { IDetailInscription, IError } from '../models/interfaces';
+import { Tparams } from '../models/types';
+import { ManageCodes } from '../helpers/ManageCodes';
+import { User } from '../entity/User';
+import { Setting } from '../entity/Setting';
+import { Inscription } from '../entity/Inscription';
 @EntityRepository(DetailInscription)
 export class DetailInscriptionController extends AbstractRepository<
   DetailInscription
@@ -14,7 +14,7 @@ export class DetailInscriptionController extends AbstractRepository<
     detailInscription: IDetailInscription
   ): Promise<DetailInscription | IError> {
     try {
-      if (typeof detailInscription.idUser == "undefined")
+      if (typeof detailInscription.idUser == 'undefined')
         return ManageCodes.searchErrors(32);
       // buscar el usuario y buscar si este no tiene una suscripcion
       const use = await getManager().findOne(User, detailInscription.idUser);
@@ -25,7 +25,8 @@ export class DetailInscriptionController extends AbstractRepository<
         use?.id,
         detailInscription.idInscription
       );
-      if (typeof existDetailInscription != "boolean")
+      
+      if (typeof existDetailInscription != 'boolean')
         return ManageCodes.searchErrors(30);
       let inscr = this.repository.create(detailInscription);
       inscr.user = use;
@@ -48,7 +49,7 @@ export class DetailInscriptionController extends AbstractRepository<
      * con el participante
      * pero pendiente a pago
      */
-    opt.typeinscription = opt.typeinscription || "DESAFIO";
+    opt.typeinscription = opt.typeinscription || 'DESAFIO';
     try {
       // const hasInscription = await this.haveDetailInscriptions(opt.idUser);
       // if (typeof hasInscription !== "boolean") {
@@ -75,11 +76,17 @@ export class DetailInscriptionController extends AbstractRepository<
       // }
       // return ManageCodes.searchErrors(30);
     } catch (error) {
-      console.log("error here");
-      console.log(error);
       return ManageCodes.searchErrors(error.code);
     }
   }
+  /**
+   *
+   * @param idUser
+   * @param idInscription
+   *
+   *  todo : retorna  falso cuanod ya tiene una inscripcion
+   *  la inscripcion se crea cundo retorna falso
+   */
   async haveDetailInscriptions(
     idUser: string,
     idInscription: number
@@ -89,20 +96,20 @@ export class DetailInscriptionController extends AbstractRepository<
     try {
       const query = await this.manager
         .createQueryBuilder()
-        .from(User, "user")
-        .addSelect("ins.id as id")
-
-        .innerJoin("user.detailInscriptions", "ins")
+        .from(User, 'user')
+        .addSelect('ins.id as id')
+        .innerJoin('user.detailInscriptions', 'ins')
         .where(
           (qb) => {
-            return "user.id = :id and ins.id = :insId";
+            return 'user.id = :id and ins.id = :insId and ins.metadata is not null';
           },
           { id: idUser, insId: idInscription }
         )
         .getRawOne();
-      return typeof query == "undefined" ? false : (query as { id: number });
+      return typeof query == 'undefined' ? false : (query as { id: number });
     } catch (error) {
-      return false;
+      console.log(error);
+      throw new Error('Ha ocurrido un error : ' + error);
     }
   }
   ///delete DetailInscription
@@ -128,7 +135,7 @@ export class DetailInscriptionController extends AbstractRepository<
     pro.id = id;
     const proValidate = await this.repository.findOne({ id });
     if (proValidate) this.repository.merge(proValidate, pro);
-    else return { message: "not foun DetailInscription" } as IError;
+    else return { message: 'not foun DetailInscription' } as IError;
     try {
       const res = await this.repository.update(id, proValidate);
       return proValidate;
@@ -143,7 +150,7 @@ export class DetailInscriptionController extends AbstractRepository<
   ): Promise<DetailInscription[] | IError> {
     if (params.id) return this.repository.find({ id: params.id });
     try {
-      if (typeof opt.user != "undefined")
+      if (typeof opt.user != 'undefined')
         return this.repository.find({ where: [opt], ...params });
       return this.repository.find({ ...params });
     } catch (error) {

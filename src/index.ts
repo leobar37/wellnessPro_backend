@@ -1,12 +1,14 @@
-import "reflect-metadata";
-import Server from "./classes/server";
-import { createConnection, getCustomRepository, getManager } from "typeorm";
-import { HOST } from "./globals/enviroment";
+import 'reflect-metadata';
+import Server from './classes/server';
+import { createConnection, getCustomRepository, getManager } from 'typeorm';
+import { HOST } from './globals/enviroment';
+// import './routes/Mailchip.js';
+
 createConnection().then((data) => {
   const server = Server.instance;
-  console.log("my host", HOST);
+  // console.log('my host', HOST);
   server.start(async () => {
-    console.log("listen on port: " + server.port);
+    console.log('listen on port: ' + server.port);
   });
 });
 // import { template } from "./globals/testemplate";
