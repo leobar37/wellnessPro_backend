@@ -17,7 +17,7 @@ app.post('/webinar', async (req, res) => {
   try {
     const response = await mailchip.lists.setListMember(
       audiencieid,
-      md5((email as string).toLowerCase),
+      md5((email as string).toLowerCase()),
       {
         email_address: email,
         status_if_new: 'subscribed',

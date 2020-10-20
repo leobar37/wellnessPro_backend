@@ -45,6 +45,7 @@
     "@types/express-handlebars": "^3.1.0",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/lowdb": "^1.0.9",
+    "@types/md5": "^2.2.0",
     "@types/morgan": "^1.9.1",
     "@types/multer": "^1.4.4",
     "@types/node": "^13.13.19",
